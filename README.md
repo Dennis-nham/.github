@@ -12,7 +12,7 @@ bash setup.sh --dry-run
 bash setup.sh
 ```
 
-> Yêu cầu: `GITHUB_KEY` trong file `.env` · git · gh CLI · pnpm · Node ≥ 20
+> Yêu cầu: `GITHUB_TOKEN` trong file `.env` · git · gh CLI · pnpm · Node ≥ 20
 
 ## 📁 Tài liệu
 
