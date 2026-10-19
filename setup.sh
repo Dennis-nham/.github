@@ -1,27 +1,27 @@
-#!/usr/bin/env bash
+﻿#!/usr/bin/env bash
 # =============================================================================
-# setup.sh — Khởi tạo tự động hệ thống GitHub Governance cho NLP Labs Vietnam
+# setup.sh â€” Khá»Ÿi táº¡o tá»± Ä‘á»™ng há»‡ thá»‘ng GitHub Governance cho NLP Labs Vietnam
 # =============================================================================
-# Tác giả  : Dennis-nham (NHAM QUOC HUAN) · @nlp-labs-vietnam
-# Phiên bản: 1.0.0
-# Yêu cầu  : bash ≥ 4, git, gh CLI, pnpm
-# Cách dùng: bash setup.sh [--dry-run] [--help]
+# TĂ¡c giáº£  : Dennis-nham (NHAM QUOC HUAN) Â· @nlp-labs-vietnam
+# PhiĂªn báº£n: 1.0.0
+# YĂªu cáº§u  : bash â‰¥ 4, git, gh CLI, pnpm
+# CĂ¡ch dĂ¹ng: bash setup.sh [--dry-run] [--help]
 # =============================================================================
 
 set -euo pipefail
 
-# ─── Bẫy lỗi toàn cục ────────────────────────────────────────────────────────
+# â”€â”€â”€ Báº«y lá»—i toĂ n cá»¥c â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 trap '_xu_ly_loi $? $LINENO' ERR
 
 _xu_ly_loi() {
   local ma_loi=$1
   local dong=$2
-  echo -e "\n${MAU_DO}${BOLD}❌ Script thất bại tại dòng ${dong} (mã lỗi: ${ma_loi})${RESET}"
-  echo -e "${MAU_VANG}💡 Kiểm tra log phía trên để biết nguyên nhân.${RESET}"
+  echo -e "\n${MAU_DO}${BOLD}âŒ Script tháº¥t báº¡i táº¡i dĂ²ng ${dong} (mĂ£ lá»—i: ${ma_loi})${RESET}"
+  echo -e "${MAU_VANG}đŸ’¡ Kiá»ƒm tra log phĂ­a trĂªn Ä‘á»ƒ biáº¿t nguyĂªn nhĂ¢n.${RESET}"
   exit "$ma_loi"
 }
 
-# ─── Màu sắc terminal (ANSI) ─────────────────────────────────────────────────
+# â”€â”€â”€ MĂ u sáº¯c terminal (ANSI) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 MAU_XANH_LA='\033[0;32m'
 MAU_XANH_DUONG='\033[0;34m'
 MAU_VANG='\033[0;33m'
@@ -31,7 +31,7 @@ MAU_CYAN='\033[0;36m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
-# ─── Biến cấu hình toàn cục ──────────────────────────────────────────────────
+# â”€â”€â”€ Biáº¿n cáº¥u hĂ¬nh toĂ n cá»¥c â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CHE_DO_THU=false
 THU_MUC_GOC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 THU_MUC_PROFILE="${THU_MUC_GOC}/.profile"
@@ -46,27 +46,27 @@ URL_ORG_GITHUB="https://github.com/${GITHUB_ORG}/.github.git"
 URL_INVESTMENT="https://github.com/${GITHUB_ORG}/investment-platform.git"
 URL_IOS_DS="https://github.com/${GITHUB_ORG}/ios-design-system.git"
 
-# ─── Hàm tiện ích ────────────────────────────────────────────────────────────
+# â”€â”€â”€ HĂ m tiá»‡n Ă­ch â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _tieu_de() {
-  echo -e "\n${BOLD}${MAU_CYAN}══════════════════════════════════════════════════════${RESET}"
+  echo -e "\n${BOLD}${MAU_CYAN}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${RESET}"
   echo -e "${BOLD}${MAU_CYAN}  $1${RESET}"
-  echo -e "${BOLD}${MAU_CYAN}══════════════════════════════════════════════════════${RESET}"
+  echo -e "${BOLD}${MAU_CYAN}â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${RESET}"
 }
 
 _buoc() {
-  echo -e "\n${MAU_XANH_DUONG}${BOLD}▶ $1${RESET}"
+  echo -e "\n${MAU_XANH_DUONG}${BOLD}â–¶ $1${RESET}"
 }
 
 _thanh_cong() {
-  echo -e "${MAU_XANH_LA}  ✅ $1${RESET}"
+  echo -e "${MAU_XANH_LA}  âœ… $1${RESET}"
 }
 
 _canh_bao() {
-  echo -e "${MAU_VANG}  ⚠️  $1${RESET}"
+  echo -e "${MAU_VANG}  â ï¸  $1${RESET}"
 }
 
 _thong_tin() {
-  echo -e "${MAU_TIM}  ℹ  $1${RESET}"
+  echo -e "${MAU_TIM}  â„¹  $1${RESET}"
 }
 
 _kho_chay() {
@@ -77,64 +77,64 @@ _kho_chay() {
   fi
 }
 
-# ─── Hàm usage() ─────────────────────────────────────────────────────────────
+# â”€â”€â”€ HĂ m usage() â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 usage() {
   cat <<EOF
 
-${BOLD}${MAU_CYAN}NLP Labs Vietnam — GitHub Governance Setup Script${RESET}
+${BOLD}${MAU_CYAN}NLP Labs Vietnam â€” GitHub Governance Setup Script${RESET}
 
-${BOLD}Cách dùng:${RESET}
-  bash setup.sh [tuỳ chọn]
+${BOLD}CĂ¡ch dĂ¹ng:${RESET}
+  bash setup.sh [tuá»³ chá»n]
 
-${BOLD}Tuỳ chọn:${RESET}
-  --dry-run     Kiểm tra các bước sẽ thực hiện mà KHÔNG thực thi thực sự
-  --help, -h    Hiển thị trợ giúp này
+${BOLD}Tuá»³ chá»n:${RESET}
+  --dry-run     Kiá»ƒm tra cĂ¡c bÆ°á»›c sáº½ thá»±c hiá»‡n mĂ  KHĂ”NG thá»±c thi thá»±c sá»±
+  --help, -h    Hiá»ƒn thá»‹ trá»£ giĂºp nĂ y
 
-${BOLD}Biến môi trường:${RESET}
-  GITHUB_KEY    Personal Access Token GitHub (PAT)
-                Hoặc đặt trong file .env tại thư mục gốc
+${BOLD}Biáº¿n mĂ´i trÆ°á»ng:${RESET}
+  GITHUB_TOKEN    Personal Access Token GitHub (PAT)
+                Hoáº·c Ä‘áº·t trong file .env táº¡i thÆ° má»¥c gá»‘c
 
-${BOLD}Ví dụ:${RESET}
-  bash setup.sh --dry-run       # Kiểm tra trước
-  bash setup.sh                 # Chạy thật
+${BOLD}VĂ­ dá»¥:${RESET}
+  bash setup.sh --dry-run       # Kiá»ƒm tra trÆ°á»›c
+  bash setup.sh                 # Cháº¡y tháº­t
 
-${BOLD}Yêu cầu:${RESET}
-  - git ≥ 2.38
-  - gh CLI ≥ 2.0 (GitHub CLI)
-  - pnpm ≥ 9
-  - Node.js ≥ 20
+${BOLD}YĂªu cáº§u:${RESET}
+  - git â‰¥ 2.38
+  - gh CLI â‰¥ 2.0 (GitHub CLI)
+  - pnpm â‰¥ 9
+  - Node.js â‰¥ 20
 
 EOF
 }
 
-# ─── Phân tích tham số ────────────────────────────────────────────────────────
+# â”€â”€â”€ PhĂ¢n tĂ­ch tham sá»‘ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 for arg in "$@"; do
   case $arg in
     --dry-run)  CHE_DO_THU=true ;;
     --help|-h)  usage; exit 0 ;;
     *)
-      echo -e "${MAU_DO}❌ Tham số không hợp lệ: $arg${RESET}"
+      echo -e "${MAU_DO}âŒ Tham sá»‘ khĂ´ng há»£p lá»‡: $arg${RESET}"
       usage
       exit 1
       ;;
   esac
 done
 
-# ─── Kiểm tra điều kiện tiên quyết ───────────────────────────────────────────
+# â”€â”€â”€ Kiá»ƒm tra Ä‘iá»u kiá»‡n tiĂªn quyáº¿t â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _kiem_tra_yeu_cau() {
-  _tieu_de "KIỂM TRA ĐIỀU KIỆN TIÊN QUYẾT"
+  _tieu_de "KIá»‚M TRA ÄIá»€U KIá»†N TIĂN QUYáº¾T"
 
   local co_loi=false
 
-  _buoc "Kiểm tra các công cụ cần thiết..."
+  _buoc "Kiá»ƒm tra cĂ¡c cĂ´ng cá»¥ cáº§n thiáº¿t..."
 
   # git
   if command -v git &>/dev/null; then
     local phien_ban_git
     phien_ban_git=$(git --version | awk '{print $3}')
-    _thanh_cong "git ${phien_ban_git} — đã cài đặt"
+    _thanh_cong "git ${phien_ban_git} â€” Ä‘Ă£ cĂ i Ä‘áº·t"
   else
-    echo -e "${MAU_DO}  ❌ git — CHƯA CÀI ĐẶT (cài tại: https://git-scm.com)${RESET}"
+    echo -e "${MAU_DO}  âŒ git â€” CHÆ¯A CĂ€I Äáº¶T (cĂ i táº¡i: https://git-scm.com)${RESET}"
     co_loi=true
   fi
 
@@ -142,57 +142,57 @@ _kiem_tra_yeu_cau() {
   if command -v gh &>/dev/null; then
     local phien_ban_gh
     phien_ban_gh=$(gh --version | head -1 | awk '{print $3}')
-    _thanh_cong "gh CLI ${phien_ban_gh} — đã cài đặt"
+    _thanh_cong "gh CLI ${phien_ban_gh} â€” Ä‘Ă£ cĂ i Ä‘áº·t"
   else
-    _canh_bao "gh CLI — chưa cài (khuyến nghị: https://cli.github.com)"
+    _canh_bao "gh CLI â€” chÆ°a cĂ i (khuyáº¿n nghá»‹: https://cli.github.com)"
   fi
 
   # pnpm
   if command -v pnpm &>/dev/null; then
     local phien_ban_pnpm
     phien_ban_pnpm=$(pnpm --version)
-    _thanh_cong "pnpm ${phien_ban_pnpm} — đã cài đặt"
+    _thanh_cong "pnpm ${phien_ban_pnpm} â€” Ä‘Ă£ cĂ i Ä‘áº·t"
   else
-    _canh_bao "pnpm — chưa cài (npm install -g pnpm)"
+    _canh_bao "pnpm â€” chÆ°a cĂ i (npm install -g pnpm)"
   fi
 
   # node
   if command -v node &>/dev/null; then
     local phien_ban_node
     phien_ban_node=$(node --version)
-    _thanh_cong "Node.js ${phien_ban_node} — đã cài đặt"
+    _thanh_cong "Node.js ${phien_ban_node} â€” Ä‘Ă£ cĂ i Ä‘áº·t"
   else
-    _canh_bao "Node.js — chưa cài (https://nodejs.org)"
+    _canh_bao "Node.js â€” chÆ°a cĂ i (https://nodejs.org)"
   fi
 
   if [[ "$co_loi" == true ]]; then
-    echo -e "\n${MAU_DO}${BOLD}❌ Một số công cụ bắt buộc chưa được cài đặt. Dừng lại.${RESET}"
+    echo -e "\n${MAU_DO}${BOLD}âŒ Má»™t sá»‘ cĂ´ng cá»¥ báº¯t buá»™c chÆ°a Ä‘Æ°á»£c cĂ i Ä‘áº·t. Dá»«ng láº¡i.${RESET}"
     exit 1
   fi
 
-  # Đọc GITHUB_KEY từ .env hoặc biến môi trường
-  _buoc "Kiểm tra GitHub Token..."
-  if [[ -z "${GITHUB_KEY:-}" ]]; then
+  # Äá»c GITHUB_TOKEN tá»« .env hoáº·c biáº¿n mĂ´i trÆ°á»ng
+  _buoc "Kiá»ƒm tra GitHub Token..."
+  if [[ -z "${GITHUB_TOKEN:-}" ]]; then
     if [[ -f "${THU_MUC_GOC}/.env" ]]; then
       # shellcheck disable=SC1090
       source "${THU_MUC_GOC}/.env"
     fi
   fi
 
-  if [[ -z "${GITHUB_KEY:-}" ]]; then
-    echo -e "${MAU_DO}  ❌ GITHUB_KEY chưa được thiết lập!${RESET}"
-    echo -e "${MAU_VANG}     Cách khắc phục:${RESET}"
-    echo -e "     1. Thêm vào file .env: ${BOLD}GITHUB_KEY=ghp_xxxxxxxxxxxx${RESET}"
-    echo -e "     2. Hoặc export: ${BOLD}export GITHUB_KEY=ghp_xxxxxxxxxxxx${RESET}"
+  if [[ -z "${GITHUB_TOKEN:-}" ]]; then
+    echo -e "${MAU_DO}  âŒ GITHUB_TOKEN chÆ°a Ä‘Æ°á»£c thiáº¿t láº­p!${RESET}"
+    echo -e "${MAU_VANG}     CĂ¡ch kháº¯c phá»¥c:${RESET}"
+    echo -e "     1. ThĂªm vĂ o file .env: ${BOLD}GITHUB_TOKEN=ghp_xxxxxxxxxxxx${RESET}"
+    echo -e "     2. Hoáº·c export: ${BOLD}export GITHUB_TOKEN=ghp_xxxxxxxxxxxx${RESET}"
     exit 1
   else
-    # Che token — chỉ hiện 8 ký tự đầu
-    local token_an="${GITHUB_KEY:0:8}********************************"
-    _thanh_cong "GITHUB_KEY đã được thiết lập (${token_an})"
+    # Che token â€” chá»‰ hiá»‡n 8 kĂ½ tá»± Ä‘áº§u
+    local token_an="${GITHUB_TOKEN:0:8}********************************"
+    _thanh_cong "GITHUB_TOKEN Ä‘Ă£ Ä‘Æ°á»£c thiáº¿t láº­p (${token_an})"
   fi
 
-  # Kiểm tra thư mục .profile tồn tại
-  _buoc "Kiểm tra thư mục nguồn .profile..."
+  # Kiá»ƒm tra thÆ° má»¥c .profile tá»“n táº¡i
+  _buoc "Kiá»ƒm tra thÆ° má»¥c nguá»“n .profile..."
   local cac_tep_can=(
     "README.md"
     "org-README.md"
@@ -209,34 +209,34 @@ _kiem_tra_yeu_cau() {
     if [[ -f "${THU_MUC_PROFILE}/${tep}" ]]; then
       _thanh_cong ".profile/${tep}"
     else
-      _canh_bao ".profile/${tep} — không tìm thấy (sẽ bỏ qua)"
+      _canh_bao ".profile/${tep} â€” khĂ´ng tĂ¬m tháº¥y (sáº½ bá» qua)"
     fi
   done
 }
 
-# ─── Cấu hình Git toàn cục ───────────────────────────────────────────────────
+# â”€â”€â”€ Cáº¥u hĂ¬nh Git toĂ n cá»¥c â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _cau_hinh_git() {
-  _tieu_de "CẤU HÌNH GIT TOÀN CỤC"
+  _tieu_de "Cáº¤U HĂŒNH GIT TOĂ€N Cá»¤C"
 
-  _buoc "Thiết lập thông tin người dùng Git..."
+  _buoc "Thiáº¿t láº­p thĂ´ng tin ngÆ°á»i dĂ¹ng Git..."
   _kho_chay git config --global user.email "${GITHUB_EMAIL}"
   _kho_chay git config --global user.name  "${GITHUB_USER}"
   _thanh_cong "user.email = ${GITHUB_EMAIL}"
   _thanh_cong "user.name  = ${GITHUB_USER}"
 
-  # Thiết lập helper lưu credential
+  # Thiáº¿t láº­p helper lÆ°u credential
   _kho_chay git config --global credential.helper store
   _thanh_cong "credential.helper = store"
 }
 
-# ─── Hàm chung: init + commit + push một repo ─────────────────────────────────
+# â”€â”€â”€ HĂ m chung: init + commit + push má»™t repo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _khoi_tao_va_push_repo() {
   local ten_repo=$1
   local thu_muc=$2
   local url_remote=$3
   local nhanh=${4:-main}
 
-  _buoc "Khởi tạo git trong: ${thu_muc}"
+  _buoc "Khá»Ÿi táº¡o git trong: ${thu_muc}"
 
   if [[ "$CHE_DO_THU" == true ]]; then
     _thong_tin "[DRY-RUN] git init ${thu_muc}"
@@ -251,52 +251,52 @@ _khoi_tao_va_push_repo() {
     git init -b "${nhanh}"
     _thanh_cong "git init -b ${nhanh}"
   else
-    _canh_bao "Thư mục đã là git repo — bỏ qua git init"
+    _canh_bao "ThÆ° má»¥c Ä‘Ă£ lĂ  git repo â€” bá» qua git init"
   fi
 
-  # Cấu hình remote với token
+  # Cáº¥u hĂ¬nh remote vá»›i token
   local url_voi_token
-  url_voi_token=$(echo "${url_remote}" | sed "s|https://|https://${GITHUB_KEY}@|")
+  url_voi_token=$(echo "${url_remote}" | sed "s|https://|https://${GITHUB_TOKEN}@|")
 
   if git remote get-url origin &>/dev/null; then
     git remote set-url origin "${url_voi_token}"
-    _canh_bao "Remote origin đã tồn tại — cập nhật URL"
+    _canh_bao "Remote origin Ä‘Ă£ tá»“n táº¡i â€” cáº­p nháº­t URL"
   else
     git remote add origin "${url_voi_token}"
-    _thanh_cong "git remote add origin (có token)"
+    _thanh_cong "git remote add origin (cĂ³ token)"
   fi
 
   git add .
   if ! git diff --cached --quiet; then
-    git commit -m "chore: khởi tạo ${ten_repo} — @nlp-labs-vietnam governance [bot]"
-    _thanh_cong "Đã commit"
+    git commit -m "chore: khá»Ÿi táº¡o ${ten_repo} â€” @nlp-labs-vietnam governance [bot]"
+    _thanh_cong "ÄĂ£ commit"
   else
-    _canh_bao "Không có thay đổi để commit"
+    _canh_bao "KhĂ´ng cĂ³ thay Ä‘á»•i Ä‘á»ƒ commit"
   fi
 
   git push -u origin "${nhanh}" --force-with-lease 2>/dev/null \
     || git push -u origin "${nhanh}" --force
-  _thanh_cong "Push lên ${url_remote} (nhánh: ${nhanh})"
+  _thanh_cong "Push lĂªn ${url_remote} (nhĂ¡nh: ${nhanh})"
 
   cd "${THU_MUC_GOC}"
 }
 
-# ─── 1. Personal Profile Repository ─────────────────────────────────────────
+# â”€â”€â”€ 1. Personal Profile Repository â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _khoi_tao_profile_repo() {
-  _tieu_de "1. PERSONAL PROFILE REPO — Dennis-nham/Dennis-nham"
+  _tieu_de "1. PERSONAL PROFILE REPO â€” Dennis-nham/Dennis-nham"
 
   local thu_muc_dich="${THU_MUC_GOC}/tmp-deploy/Dennis-nham"
 
-  _buoc "Chuẩn bị thư mục deploy..."
+  _buoc "Chuáº©n bá»‹ thÆ° má»¥c deploy..."
   _kho_chay rm -rf "${thu_muc_dich}"
   _kho_chay mkdir -p "${thu_muc_dich}"
 
-  _buoc "Copy README.md từ .profile/..."
+  _buoc "Copy README.md tá»« .profile/..."
   if [[ -f "${THU_MUC_PROFILE}/README.md" ]]; then
     _kho_chay cp "${THU_MUC_PROFILE}/README.md" "${thu_muc_dich}/README.md"
-    _thanh_cong "README.md đã copy"
+    _thanh_cong "README.md Ä‘Ă£ copy"
   else
-    echo -e "${MAU_DO}  ❌ Không tìm thấy .profile/README.md${RESET}"
+    echo -e "${MAU_DO}  âŒ KhĂ´ng tĂ¬m tháº¥y .profile/README.md${RESET}"
     exit 1
   fi
 
@@ -306,24 +306,24 @@ _khoi_tao_profile_repo() {
     "${URL_PROFILE}" \
     "main"
 
-  _thanh_cong "✅ Personal profile repo hoàn tất → ${URL_PROFILE}"
+  _thanh_cong "âœ… Personal profile repo hoĂ n táº¥t â†’ ${URL_PROFILE}"
 }
 
-# ─── 2. Organization .github Repository ──────────────────────────────────────
+# â”€â”€â”€ 2. Organization .github Repository â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _khoi_tao_org_github_repo() {
-  _tieu_de "2. ORG GOVERNANCE REPO — nlp-labs-vietnam/.github"
+  _tieu_de "2. ORG GOVERNANCE REPO â€” nlp-labs-vietnam/.github"
 
   local thu_muc_dich="${THU_MUC_GOC}/tmp-deploy/nlp-github"
 
-  _buoc "Chuẩn bị cấu trúc thư mục..."
+  _buoc "Chuáº©n bá»‹ cáº¥u trĂºc thÆ° má»¥c..."
   _kho_chay rm -rf "${thu_muc_dich}"
   _kho_chay mkdir -p "${thu_muc_dich}/profile"
   _kho_chay mkdir -p "${thu_muc_dich}/.github/workflows"
   _kho_chay mkdir -p "${thu_muc_dich}/.github/ISSUE_TEMPLATE"
 
-  _buoc "Copy tệp governance..."
+  _buoc "Copy tá»‡p governance..."
 
-  # Hàm copy an toàn
+  # HĂ m copy an toĂ n
   _copy_neu_ton_tai() {
     local nguon=$1
     local dich=$2
@@ -331,9 +331,9 @@ _khoi_tao_org_github_repo() {
       if [[ "$CHE_DO_THU" == false ]]; then
         cp "$nguon" "$dich"
       fi
-      _thanh_cong "$(basename "$nguon") → $(echo "$dich" | sed "s|${thu_muc_dich}/||")"
+      _thanh_cong "$(basename "$nguon") â†’ $(echo "$dich" | sed "s|${thu_muc_dich}/||")"
     else
-      _canh_bao "Bỏ qua: $(basename "$nguon") (không tìm thấy)"
+      _canh_bao "Bá» qua: $(basename "$nguon") (khĂ´ng tĂ¬m tháº¥y)"
     fi
   }
 
@@ -355,91 +355,91 @@ _khoi_tao_org_github_repo() {
     done
   fi
 
-  # Tạo issue templates
-  _buoc "Tạo Issue Templates..."
+  # Táº¡o issue templates
+  _buoc "Táº¡o Issue Templates..."
   if [[ "$CHE_DO_THU" == false ]]; then
     cat > "${thu_muc_dich}/.github/ISSUE_TEMPLATE/bug_report.md" <<'TMPL'
 ---
-name: 🐛 Báo cáo lỗi
-about: Tạo báo cáo để giúp chúng tôi cải thiện
+name: đŸ› BĂ¡o cĂ¡o lá»—i
+about: Táº¡o bĂ¡o cĂ¡o Ä‘á»ƒ giĂºp chĂºng tĂ´i cáº£i thiá»‡n
 title: "[BUG] "
 labels: bug
 assignees: Dennis-nham
 ---
 
-## Mô tả lỗi
-<!-- Mô tả rõ ràng và súc tích về lỗi -->
+## MĂ´ táº£ lá»—i
+<!-- MĂ´ táº£ rĂµ rĂ ng vĂ  sĂºc tĂ­ch vá» lá»—i -->
 
-## Bước tái hiện
-1. Đi đến '...'
-2. Click vào '...'
-3. Cuộn xuống đến '...'
-4. Thấy lỗi
+## BÆ°á»›c tĂ¡i hiá»‡n
+1. Äi Ä‘áº¿n '...'
+2. Click vĂ o '...'
+3. Cuá»™n xuá»‘ng Ä‘áº¿n '...'
+4. Tháº¥y lá»—i
 
-## Hành vi mong đợi
-<!-- Mô tả bạn mong đợi điều gì xảy ra -->
+## HĂ nh vi mong Ä‘á»£i
+<!-- MĂ´ táº£ báº¡n mong Ä‘á»£i Ä‘iá»u gĂ¬ xáº£y ra -->
 
 ## Screenshots
-<!-- Nếu có, thêm ảnh chụp màn hình để giải thích vấn đề -->
+<!-- Náº¿u cĂ³, thĂªm áº£nh chá»¥p mĂ n hĂ¬nh Ä‘á»ƒ giáº£i thĂ­ch váº¥n Ä‘á» -->
 
-## Môi trường
+## MĂ´i trÆ°á»ng
 - OS: [e.g. macOS 14, Ubuntu 22.04]
 - Node: [e.g. 20.11.0]
 - pnpm: [e.g. 9.0.0]
-- Browser (nếu UI): [e.g. Chrome 124]
+- Browser (náº¿u UI): [e.g. Chrome 124]
 
-## Thông tin bổ sung
-<!-- Bất kỳ thông tin nào khác về vấn đề -->
+## ThĂ´ng tin bá»• sung
+<!-- Báº¥t ká»³ thĂ´ng tin nĂ o khĂ¡c vá» váº¥n Ä‘á» -->
 TMPL
     _thanh_cong "bug_report.md"
 
     cat > "${thu_muc_dich}/.github/ISSUE_TEMPLATE/feature_request.md" <<'TMPL'
 ---
-name: 💡 Đề xuất tính năng
-about: Đề xuất ý tưởng cho dự án này
+name: đŸ’¡ Äá» xuáº¥t tĂ­nh nÄƒng
+about: Äá» xuáº¥t Ă½ tÆ°á»Ÿng cho dá»± Ă¡n nĂ y
 title: "[FEAT] "
 labels: enhancement
 assignees: Dennis-nham
 ---
 
-## Bài toán đang gặp phải
-<!-- Mô tả bài toán. Ví dụ: Tôi luôn bực bội khi [...] -->
+## BĂ i toĂ¡n Ä‘ang gáº·p pháº£i
+<!-- MĂ´ táº£ bĂ i toĂ¡n. VĂ­ dá»¥: TĂ´i luĂ´n bá»±c bá»™i khi [...] -->
 
-## Giải pháp đề xuất
-<!-- Mô tả giải pháp bạn muốn -->
+## Giáº£i phĂ¡p Ä‘á» xuáº¥t
+<!-- MĂ´ táº£ giáº£i phĂ¡p báº¡n muá»‘n -->
 
-## Alternatives đã xem xét
-<!-- Mô tả các giải pháp thay thế bạn đã cân nhắc -->
+## Alternatives Ä‘Ă£ xem xĂ©t
+<!-- MĂ´ táº£ cĂ¡c giáº£i phĂ¡p thay tháº¿ báº¡n Ä‘Ă£ cĂ¢n nháº¯c -->
 
-## Thông tin bổ sung
-<!-- Thêm context, screenshots, mockups về feature request -->
+## ThĂ´ng tin bá»• sung
+<!-- ThĂªm context, screenshots, mockups vá» feature request -->
 TMPL
     _thanh_cong "feature_request.md"
 
     cat > "${thu_muc_dich}/.github/ISSUE_TEMPLATE/sponsorship_inquiry.md" <<'TMPL'
 ---
-name: 💚 Hỏi về tài trợ
-about: Liên hệ về cơ hội tài trợ và hợp tác
+name: đŸ’ Há»i vá» tĂ i trá»£
+about: LiĂªn há»‡ vá» cÆ¡ há»™i tĂ i trá»£ vĂ  há»£p tĂ¡c
 title: "[SPONSOR] "
 labels: sponsorship
 assignees: Dennis-nham
 ---
 
-## Tổ chức / Cá nhân
-- **Tên:** 
+## Tá»• chá»©c / CĂ¡ nhĂ¢n
+- **TĂªn:** 
 - **Website:** 
-- **Lĩnh vực:** 
+- **LÄ©nh vá»±c:** 
 
-## Loại hợp tác quan tâm
+## Loáº¡i há»£p tĂ¡c quan tĂ¢m
 - [ ] Cloud Credits (Infrastructure Sponsor)
-- [ ] Corporate Sponsorship ($50k–$500k)
+- [ ] Corporate Sponsorship ($50kâ€“$500k)
 - [ ] VC Investment ($1M+)
 - [ ] Strategic Partnership (MOU)
 - [ ] Community Sponsor (GitHub Sponsors)
 
-## Mô tả ngắn về đề xuất hợp tác
+## MĂ´ táº£ ngáº¯n vá» Ä‘á» xuáº¥t há»£p tĂ¡c
 
-## Thông tin liên hệ
+## ThĂ´ng tin liĂªn há»‡
 - **Email:** 
 - **LinkedIn:** 
 TMPL
@@ -452,15 +452,15 @@ TMPL
     "${URL_ORG_GITHUB}" \
     "main"
 
-  _thanh_cong "✅ Org .github repo hoàn tất → ${URL_ORG_GITHUB}"
+  _thanh_cong "âœ… Org .github repo hoĂ n táº¥t â†’ ${URL_ORG_GITHUB}"
 }
 
-# ─── 3. Monorepo scaffold ─────────────────────────────────────────────────────
+# â”€â”€â”€ 3. Monorepo scaffold â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _tao_cau_truc_monorepo() {
   local ten_repo=$1
   local thu_muc_dich="${THU_MUC_GOC}/tmp-deploy/${ten_repo}"
 
-  _buoc "Tạo cấu trúc thư mục monorepo: ${ten_repo}..."
+  _buoc "Táº¡o cáº¥u trĂºc thÆ° má»¥c monorepo: ${ten_repo}..."
   _kho_chay rm -rf "${thu_muc_dich}"
   _kho_chay mkdir -p "${thu_muc_dich}"/{apps,packages,services,tools,libs}
   _kho_chay mkdir -p "${thu_muc_dich}/.github/workflows"
@@ -510,13 +510,13 @@ YAML
 JSON
     _thanh_cong "turbo.json"
 
-    # package.json gốc
+    # package.json gá»‘c
     cat > "${thu_muc_dich}/package.json" <<JSON
 {
   "name": "@nlp-labs-vietnam/${ten_repo}",
   "version": "0.1.0",
   "private": true,
-  "description": "NLP Labs Vietnam — ${ten_repo}",
+  "description": "NLP Labs Vietnam â€” ${ten_repo}",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -582,16 +582,16 @@ IGNORE
 
     # .env.example
     cat > "${thu_muc_dich}/.env.example" <<'ENV'
-# Sao chép file này thành .env và điền giá trị thực
-# KHÔNG bao giờ commit file .env lên git
+# Sao chĂ©p file nĂ y thĂ nh .env vĂ  Ä‘iá»n giĂ¡ trá»‹ thá»±c
+# KHĂ”NG bao giá» commit file .env lĂªn git
 
 # GitHub Personal Access Token
-GITHUB_KEY=
+GITHUB_TOKEN=
 
 # Database
 DATABASE_URL=
 
-# API Keys (thay bằng giá trị thực)
+# API Keys (thay báº±ng giĂ¡ trá»‹ thá»±c)
 OPENAI_API_KEY=
 MILVUS_HOST=localhost
 MILVUS_PORT=19530
@@ -608,11 +608,11 @@ ENV
     cat > "${thu_muc_dich}/README.md" <<MD
 # ${ten_repo}
 
-> **@nlp-labs-vietnam** — NLP Labs Vietnam
+> **@nlp-labs-vietnam** â€” NLP Labs Vietnam
 
-Xem [ARCHITECTURE.md](./ARCHITECTURE.md) để hiểu toàn bộ cấu trúc hệ thống.
+Xem [ARCHITECTURE.md](./ARCHITECTURE.md) Ä‘á»ƒ hiá»ƒu toĂ n bá»™ cáº¥u trĂºc há»‡ thá»‘ng.
 
-## Cài đặt
+## CĂ i Ä‘áº·t
 
 \`\`\`bash
 pnpm install
@@ -620,7 +620,7 @@ pnpm build
 pnpm dev
 \`\`\`
 
-## Tài liệu
+## TĂ i liá»‡u
 
 - [CONTRIBUTING.md](./CONTRIBUTING.md)
 - [ARCHITECTURE.md](./ARCHITECTURE.md)
@@ -639,7 +639,7 @@ on:
 
 jobs:
   ci:
-    name: Lint · Typecheck · Test · Build
+    name: Lint Â· Typecheck Â· Test Â· Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -653,7 +653,7 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: Cài đặt dependencies
+      - name: CĂ i Ä‘áº·t dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Lint + Typecheck + Test + Build
@@ -661,10 +661,10 @@ jobs:
 YML
     _thanh_cong ".github/workflows/ci.yml"
 
-  fi # hết CHE_DO_THU == false
+  fi # háº¿t CHE_DO_THU == false
 
   # Copy governance docs
-  _buoc "Copy tệp governance vào ${ten_repo}..."
+  _buoc "Copy tá»‡p governance vĂ o ${ten_repo}..."
   local gov_files=(
     "MAINTAINERS.md"
     "CONTRIBUTING.md"
@@ -691,62 +691,62 @@ _deploy_monorepo() {
   local ten_repo=$1
   local url_remote=$2
 
-  _tieu_de "$(echo "$ten_repo" | tr '[:lower:]' '[:upper:]') — nlp-labs-vietnam/${ten_repo}"
+  _tieu_de "$(echo "$ten_repo" | tr '[:lower:]' '[:upper:]') â€” nlp-labs-vietnam/${ten_repo}"
   _tao_cau_truc_monorepo "${ten_repo}"
   _khoi_tao_va_push_repo \
     "nlp-labs-vietnam/${ten_repo}" \
     "${THU_MUC_GOC}/tmp-deploy/${ten_repo}" \
     "${url_remote}" \
     "main"
-  _thanh_cong "✅ ${ten_repo} hoàn tất → ${url_remote}"
+  _thanh_cong "âœ… ${ten_repo} hoĂ n táº¥t â†’ ${url_remote}"
 }
 
-# ─── Dọn dẹp thư mục tạm ────────────────────────────────────────────────────
+# â”€â”€â”€ Dá»n dáº¹p thÆ° má»¥c táº¡m â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _don_dep() {
-  _tieu_de "DỌN DẸP"
+  _tieu_de "Dá»ŒN Dáº¸P"
   if [[ "$CHE_DO_THU" == false ]]; then
     rm -rf "${THU_MUC_GOC}/tmp-deploy"
-    _thanh_cong "Đã xóa thư mục tạm tmp-deploy/"
+    _thanh_cong "ÄĂ£ xĂ³a thÆ° má»¥c táº¡m tmp-deploy/"
   else
-    _thong_tin "[DRY-RUN] Bỏ qua dọn dẹp"
+    _thong_tin "[DRY-RUN] Bá» qua dá»n dáº¹p"
   fi
 }
 
-# ─── Tóm tắt kết quả ────────────────────────────────────────────────────────
+# â”€â”€â”€ TĂ³m táº¯t káº¿t quáº£ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _tom_tat() {
-  _tieu_de "TÓM TẮT KẾT QUẢ"
-  echo -e "${BOLD}Các repo đã được khởi tạo và push:${RESET}"
-  echo -e "  ${MAU_XANH_LA}✅${RESET} ${URL_PROFILE}"
-  echo -e "  ${MAU_XANH_LA}✅${RESET} ${URL_ORG_GITHUB}"
-  echo -e "  ${MAU_XANH_LA}✅${RESET} ${URL_INVESTMENT}"
-  echo -e "  ${MAU_XANH_LA}✅${RESET} ${URL_IOS_DS}"
+  _tieu_de "TĂ“M Táº®T Káº¾T QUáº¢"
+  echo -e "${BOLD}CĂ¡c repo Ä‘Ă£ Ä‘Æ°á»£c khá»Ÿi táº¡o vĂ  push:${RESET}"
+  echo -e "  ${MAU_XANH_LA}âœ…${RESET} ${URL_PROFILE}"
+  echo -e "  ${MAU_XANH_LA}âœ…${RESET} ${URL_ORG_GITHUB}"
+  echo -e "  ${MAU_XANH_LA}âœ…${RESET} ${URL_INVESTMENT}"
+  echo -e "  ${MAU_XANH_LA}âœ…${RESET} ${URL_IOS_DS}"
   echo ""
-  echo -e "${BOLD}Bước tiếp theo:${RESET}"
-  echo -e "  1. Vào ${MAU_CYAN}github.com/organizations/nlp-labs-vietnam/settings/profile${RESET}"
-  echo -e "     → Enable GitHub Sponsors cho org"
-  echo -e "  2. Đăng ký secrets tại:"
+  echo -e "${BOLD}BÆ°á»›c tiáº¿p theo:${RESET}"
+  echo -e "  1. VĂ o ${MAU_CYAN}github.com/organizations/nlp-labs-vietnam/settings/profile${RESET}"
+  echo -e "     â†’ Enable GitHub Sponsors cho org"
+  echo -e "  2. ÄÄƒng kĂ½ secrets táº¡i:"
   echo -e "     ${MAU_CYAN}github.com/Dennis-nham/Dennis-nham/settings/secrets/actions${RESET}"
-  echo -e "     • GITHUB_KEY    (Personal Access Token)"
-  echo -e "     • NLP_LABS_ORG_TOKEN (PAT có quyền admin:org)"
-  echo -e "  3. Nộp đơn Google for Startups: ${MAU_CYAN}cloud.google.com/startup${RESET}"
+  echo -e "     â€¢ GITHUB_TOKEN    (Personal Access Token)"
+  echo -e "     â€¢ NLP_LABS_ORG_TOKEN (PAT cĂ³ quyá»n admin:org)"
+  echo -e "  3. Ná»™p Ä‘Æ¡n Google for Startups: ${MAU_CYAN}cloud.google.com/startup${RESET}"
   echo ""
   if [[ "$CHE_DO_THU" == true ]]; then
-    echo -e "${MAU_VANG}${BOLD}⚠️  ĐÂY LÀ KẾT QUẢ DRY-RUN — Không có thay đổi nào được thực thi.${RESET}"
-    echo -e "${MAU_VANG}   Chạy lại không có --dry-run để thực thi thật.${RESET}"
+    echo -e "${MAU_VANG}${BOLD}â ï¸  ÄĂ‚Y LĂ€ Káº¾T QUáº¢ DRY-RUN â€” KhĂ´ng cĂ³ thay Ä‘á»•i nĂ o Ä‘Æ°á»£c thá»±c thi.${RESET}"
+    echo -e "${MAU_VANG}   Cháº¡y láº¡i khĂ´ng cĂ³ --dry-run Ä‘á»ƒ thá»±c thi tháº­t.${RESET}"
   fi
 }
 
-# ─── MAIN ────────────────────────────────────────────────────────────────────
+# â”€â”€â”€ MAIN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 main() {
   echo -e "\n${BOLD}${MAU_CYAN}"
-  echo "  ╔═══════════════════════════════════════════════════════╗"
-  echo "  ║     NLP Labs Vietnam — GitHub Governance Setup       ║"
-  echo "  ║     @Dennis-nham · NLP GROUP JSC · 2025              ║"
-  echo "  ╚═══════════════════════════════════════════════════════╝"
+  echo "  â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—"
+  echo "  â•‘     NLP Labs Vietnam â€” GitHub Governance Setup       â•‘"
+  echo "  â•‘     @Dennis-nham Â· NLP GROUP JSC Â· 2025              â•‘"
+  echo "  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•"
   echo -e "${RESET}"
 
   if [[ "$CHE_DO_THU" == true ]]; then
-    echo -e "${MAU_VANG}${BOLD}  ⚠️  CHẾ ĐỘ DRY-RUN — Chỉ mô phỏng, không thực thi${RESET}\n"
+    echo -e "${MAU_VANG}${BOLD}  â ï¸  CHáº¾ Äá»˜ DRY-RUN â€” Chá»‰ mĂ´ phá»ng, khĂ´ng thá»±c thi${RESET}\n"
   fi
 
   _kiem_tra_yeu_cau
@@ -760,7 +760,8 @@ main() {
   _don_dep
   _tom_tat
 
-  echo -e "\n${MAU_XANH_LA}${BOLD}🎉 Hoàn tất! Hệ thống governance của @nlp-labs-vietnam đã được khởi tạo.${RESET}\n"
+  echo -e "\n${MAU_XANH_LA}${BOLD}đŸ‰ HoĂ n táº¥t! Há»‡ thá»‘ng governance cá»§a @nlp-labs-vietnam Ä‘Ă£ Ä‘Æ°á»£c khá»Ÿi táº¡o.${RESET}\n"
 }
 
 main "$@"
+
