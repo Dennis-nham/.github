@@ -91,7 +91,7 @@ NLP Labs Vietnam is executing a **$50,000,000 USD strategic funding round** to s
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dennis_Nham-0077B5?style=flat-square&logo=linkedin)](https://linkedin.com)
 [![GitHub Org](https://img.shields.io/badge/GitHub-nlp--labs--vietnam-181717?style=flat-square&logo=github)](https://github.com/nlp-labs-vietnam)
-[![Email](https://img.shields.io/badge/Email-contact@nlpgroup.ai-D14836?style=flat-square&logo=gmail)](mailto:pc@dennisnham)
+[![Email](https://img.shields.io/badge/Email-contact@nlpgroup.ai-D14836?style=flat-square&logo=gmail)](mailto:contact@nlpgroup.ai)
 
 </div>
 
