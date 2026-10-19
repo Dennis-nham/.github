@@ -1,24 +1,4 @@
-# .github/FUNDING.yml — Cấu hình nút Sponsor trên GitHub
-# Tham khảo: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
-#
-# Lưu ý quan trọng: tên người dùng PHÂN BIỆT HOA THƯỜNG
-#   ✅ github: [Dennis-nham]     (đúng — khớp với username GitHub)
-#   ❌ github: [dennis-nham]     (sai — sẽ không tìm thấy tài khoản)
-
-# GitHub Sponsors — tài trợ trực tiếp qua GitHub
-# Hiển thị nút "Sponsor" màu hồng trên trang repo
 github: [Dennis-nham]
-
-# Open Collective — tài trợ cộng đồng, minh bạch tài chính
-# Dành cho tổ chức muốn công khai thu chi
-open_collective: nlp-labs-vietnam
-
-# Ko-fi — tài trợ nhỏ, đơn giản, không phí giao dịch
-# Format: chỉ username, không có https://
-ko_fi: dennisnham
-
-# Kênh tùy chỉnh (tối đa 4 URL)
-# Dùng cho Buy Me a Coffee hoặc các kênh không có trong danh sách mặc định
-custom:
-  - "https://buymeacoffee.com/Dennis-nham"
-  - "mailto:enterprise@nlpgroup.vn"
+open_collective: Dennis-nham
+ko_fi: Dennis-nham
+custom: ["https://buymeacoffee.com/Dennis-nham"]
