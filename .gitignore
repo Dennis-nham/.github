@@ -1,8 +1,12 @@
-﻿# Tài liệu nội bộ — không đẩy lên git
+# Tài liệu nội bộ — không đẩy lên git
 CIS NLP GROUP.docx
 IDEA.md
 sponsorship_proposal_nlp_labs_vietnam.md
 .env
-# Cho phep thu muc .profile/
+
+# Thư mục tạm khi deploy
+tmp-deploy/
+
+# Cho phép thư mục .profile/ được track bởi git
 !.profile/
 !.profile/**
